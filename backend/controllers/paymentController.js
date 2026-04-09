@@ -1,8 +1,16 @@
 const db = require('../db');
 
 exports.getMyPayment = (req, res) => {
-  const payments = db.prepare('SELECT * FROM payments WHERE user_id=?').all(req.user.id);
-  res.json(payments);
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  let payment = db.prepare('SELECT * FROM payments WHERE user_id=? AND month=?')
+    .get(req.user.id, currentMonth);
+  if (!payment) {
+    db.prepare("INSERT INTO payments (user_id, month, amount, status) VALUES (?, ?, 3000, 'unpaid')")
+      .run(req.user.id, currentMonth);
+    payment = db.prepare('SELECT * FROM payments WHERE user_id=? AND month=?')
+      .get(req.user.id, currentMonth);
+  }
+  res.json(payment);
 };
 
 exports.markPaid = (req, res) => {

@@ -9,9 +9,9 @@ app.use(express.json());
 // Routes
 app.use('/api/auth',       require('./routes/auth'));
 app.use('/api/attendance', require('./routes/attendance'));
-app.use('/api/leave',      require('./routes/leave'));
+app.use('/api/leaves',      require('./routes/leave'));
 app.use('/api/admin',      require('./routes/admin'));
-app.use('/api/payment',    require('./routes/payment'));
+app.use('/api/payments',    require('./routes/payment'));
 
 // Health check
 app.get('/api/health', (req, res) => {

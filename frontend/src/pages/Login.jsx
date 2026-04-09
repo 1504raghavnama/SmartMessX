@@ -12,9 +12,10 @@ const Login = () => {
     try {
       const res = await API.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.role);
+      localStorage.setItem('role', res.data.user.role);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
       toast.success('Login successful!');
-      if (res.data.role === 'admin') navigate('/admin');
+      if (res.data.user.role === 'admin') navigate('/admin');
       else navigate('/student');
     } catch (err) {
       toast.error('Invalid credentials');
