@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: devops/Dockerfile.backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../backend/data:/app/data
+    environment:
+      - JWT_SECRET=smartmessx_secret
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: devops/Dockerfile.frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
